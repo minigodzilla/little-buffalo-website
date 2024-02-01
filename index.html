@@ -14,6 +14,7 @@
             background-color: #000;
             color: #fff;
             font-family: Montserrat, sans-serif;
+            font-size: 1.5vw;
         }
 
         .hero {
@@ -30,6 +31,8 @@
             background-image: url('edge-desktop-b.png');
             background-repeat: no-repeat;
             background-position: 0 100%;
+            background-size: contain;
+            pointer-events: none;
         }
 
         video {
@@ -44,6 +47,22 @@
             left: 0;
         }
 
+        .content {
+            display: flex;
+        }
+
+        .content p {
+            margin: 0;
+            font-weight: bold;
+            width: 21em;
+            text-align: center;
+        }
+
+        .content p em {
+            font-style: normal;
+            color: #fbb03b;
+        }
+
         .field-shift {
             left: -9999px;
             position: absolute;
@@ -51,32 +70,79 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            const video = document.querySelector("video");
+            video.addEventListener("click", function () {
+                if (this.paused) {
+                    this.play();
+                } else {
+                    this.pause();
+                }
+            });
+
+            // Select the form and add a placeholder for messages
+            const form = document.querySelector("form");
+            const messagePlaceholder = document.createElement("p");
+            document.body.appendChild(messagePlaceholder); // Append the message placeholder to the body
+
+            // Intercept form submission
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Use FormData to collect form data
+                const formData = new FormData(form);
+
+                // Use Fetch API to submit the form data
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json(); // Assuming the server responds with JSON
+                        } else {
+                            throw new Error('Server responded with an error!');
+                        }
+                    })
+                    .then(data => {
+                        // Display success message
+                        messagePlaceholder.textContent = "Thank you! Your submission has been received.";
+                        messagePlaceholder.style.color = "green";
+                    })
+                    .catch(error => {
+                        // Display error message on failure
+                        messagePlaceholder.textContent = "Error occurred. Please try again.";
+                        messagePlaceholder.style.color = "red";
+                    });
+            });
         });
     </script>
 </head>
 
 <body>
     <div class="hero">
-        <video src="carousel-desktop.mp4" muted="true" autoplay="true"></video>
+        <video src="carousel-desktop.mp4" muted="true" autoplay="true" loop="true"></video>
         <img class="logo-desktop" src="logo-desktop.png" />
     </div>
-    <form action="https://gmail.us21.list-manage.com/subscribe/post" method="POST">
-        <input type="hidden" name="u" value="e7f83e702318920efe670e9b1">
-        <input type="hidden" name="id" value="597f4b8abc">
-        <!-- people should not fill these in and expect good things -->
-        <div class="field-shift" aria-label="Please leave the following three fields empty" aria-hidden="true">
-            <label for="b_name">Name: </label>
-            <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie" id="b_name">
+    <div class="content">
+        <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75% discount</p>
+        <form action="https://gmail.us21.list-manage.com/subscribe/post" method="POST">
+            <input type="hidden" name="u" value="e7f83e702318920efe670e9b1">
+            <input type="hidden" name="id" value="597f4b8abc">
+            <!-- people should not fill these in and expect good things -->
+            <div class="field-shift" aria-label="Please leave the following three fields empty" aria-hidden="true">
+                <label for="b_name">Name: </label>
+                <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie" id="b_name">
 
-            <label for="b_email">Email: </label>
-            <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
+                <label for="b_email">Email: </label>
+                <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
 
-            <label for="b_comment">Comment: </label>
-            <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
-        </div>
-        <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" size="25" value="">
-        <input type="submit" class="formEmailButton" name="submit" value="Subscribe">
-    </form>
+                <label for="b_comment">Comment: </label>
+                <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
+            </div>
+            <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" size="25" placeholder="Enter your email address">
+            <input type="submit" class="formEmailButton" name="submit" value="Submit">
+        </form>
+    </div>
 </body>
 
 </html>
