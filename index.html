@@ -16,8 +16,32 @@
             font-family: Montserrat, sans-serif;
         }
 
+        .hero {
+            position: relative;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-image: url('edge-desktop-b.png');
+            background-repeat: no-repeat;
+            background-position: 0 100%;
+        }
+
         video {
             width: 100%;
+            display: block;
+        }
+
+        .logo-desktop {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
         }
 
         .field-shift {
@@ -32,7 +56,10 @@
 </head>
 
 <body>
-    <video src="carousel-desktop.mp4" muted="true" autoplay="true"></video>
+    <div class="hero">
+        <video src="carousel-desktop.mp4" muted="true" autoplay="true"></video>
+        <img class="logo-desktop" src="logo-desktop.png" />
+    </div>
     <form action="https://gmail.us21.list-manage.com/subscribe/post" method="POST">
         <input type="hidden" name="u" value="e7f83e702318920efe670e9b1">
         <input type="hidden" name="id" value="597f4b8abc">
