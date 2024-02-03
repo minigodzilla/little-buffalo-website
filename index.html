@@ -69,14 +69,14 @@
             align-items: center;
         }
 
-        .content p {
+        .content>p {
             margin: 0 0 2em 0;
             padding: 0 2em;
             font-weight: bold;
             text-align: center;
         }
 
-        .content p em {
+        .content>p em {
             font-style: normal;
             color: #fbb03b;
         }
@@ -85,6 +85,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
         }
 
         form .field-shift {
@@ -102,6 +103,7 @@
             text-align: center;
             width: 18em;
             padding: 0.4em;
+            transition: transform ease-out 50ms, opacity ease 250ms;
         }
 
         form input:focus {
@@ -125,8 +127,29 @@
             background-color: #fbb03b;
             border-color: #fbb03b;
             border-radius: 2em;
+            color: #000;
             font-weight: bold;
             margin-bottom: 1.5em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        form input[type="submit"]:active {
+            transform: scale(0.95);
+        }
+
+        form.submit-in-progress {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        form.submit-completed input {
+            opacity: 0;
+        }
+
+        form.submit-completed #submit-message {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         .qr-panel {
@@ -183,8 +206,7 @@
 
             // Select the form and add a placeholder for messages
             const form = document.querySelector("form");
-            const messagePlaceholder = document.createElement("p");
-            document.body.appendChild(messagePlaceholder); // Append the message placeholder to the body
+            const messagePlaceholder = document.getElementById("submit-message");
 
             // Intercept form submission
             form.addEventListener("submit", function (event) {
@@ -201,6 +223,8 @@
                     return; // Stop the form submission
                 }
 
+                form.className = "submit-in-progress";
+
                 // Use FormData to collect form data
                 const formData = new FormData(form);
 
@@ -211,6 +235,7 @@
                     body: formData,
                 })
                     .then(response => {
+                        form.className = "submit-completed";
                         messagePlaceholder.innerHTML = "Thank you!<br/>Your submission has been received.";
                     })
                     .catch(error => {
@@ -247,7 +272,8 @@
                 <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
             </div>
             <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" size="25" placeholder="Enter your email address">
-            <input type="submit" class="formEmailButton" name="submit" value="Submit">
+            <input type="submit" class="formEmailButton" name="submit" id="submit" value="Submit">
+            <p id="submit-message"></p>
         </form>
     </div>
     <div class="qr-panel">
