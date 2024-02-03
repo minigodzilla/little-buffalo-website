@@ -22,6 +22,10 @@
             align-items: center;
         }
 
+        p {
+            margin: 0 0 1em 0;
+        }
+
         .hero {
             position: relative;
             display: flex;
@@ -48,13 +52,13 @@
         .hero video {
             width: 100%;
             display: block;
-            margin-top: 5.5em;
+            margin-top: 3.75em;
         }
 
         .hero .logo {
             position: absolute;
-            width: 65%;
-            top: 0;
+            width: 45%;
+            top: 0.25em;
         }
 
         .content {
@@ -120,6 +124,7 @@
             border-color: #fbb03b;
             border-radius: 2em;
             font-weight: bold;
+            margin-bottom: 1.5em;
         }
     </style>
     <script>
@@ -160,12 +165,10 @@
                     .then(data => {
                         // Display success message
                         messagePlaceholder.textContent = "Thank you! Your submission has been received.";
-                        messagePlaceholder.style.color = "green";
                     })
                     .catch(error => {
                         // Display error message on failure
                         messagePlaceholder.textContent = "Error occurred. Please try again.";
-                        messagePlaceholder.style.color = "red";
                     });
             });
         });
@@ -174,11 +177,11 @@
 
 <body>
     <div class="hero">
-        <video src="carousel-mobile.mp4" muted="true" loop="true"></video>
+        <video src="carousel-mobile.mp4" playsinline="true" muted="true" loop="true" autoplay="true"></video>
         <img class="logo" src="logo.png" />
     </div>
     <div class="content">
-        <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&NonBreakingSpace;discount</p>
+        <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
         <form action="https://gmail.us21.list-manage.com/subscribe/post" method="POST">
             <input type="hidden" name="u" value="e7f83e702318920efe670e9b1">
             <input type="hidden" name="id" value="597f4b8abc">
