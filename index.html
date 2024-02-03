@@ -15,15 +15,19 @@
         }
 
         body {
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             padding: 0;
             background-color: #000;
             color: #fff;
             font-family: Montserrat, sans-serif;
             font-size: 4.25vw;
-            line-height: 1.5;
             /* 1.5 for desktop */
+            line-height: 1.5;
+        }
+
+        body.portrait {
+            height: 100vh;
             overflow: hidden;
         }
 
@@ -52,14 +56,14 @@
         .hero::after {
             content: "";
             position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
+            top: -0.01em;
+            right: -0.01em;
+            bottom: -0.01em;
+            left: -0.01em;
             background-image: url('edges-mobile.png');
             background-repeat: no-repeat;
             background-position: 0 100%;
-            background-size: contain;
+            background-size: 100% 100%;
             pointer-events: none;
         }
 
@@ -189,20 +193,22 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Listen for the orientationchange event, populate a global variable, add a classname to body
+            // Listen for the orientationchange event, populate a global variable, add a classname to body, populate video src
+            const video = document.querySelector("video");
             let orientation;
             window.addEventListener('orientationchange', () => {
                 // Check if the orientation is in portrait mode and set the class name accordingly
                 orientation = (window.orientation === 0 || window.orientation === 180) ? 'portrait' : 'landscape';
                 document.body.className = orientation;
+                video.setAttribute("src", orientation === 'portrait' ? "carousel-mobile.mp4" : "carousel-desktop.mp4");
             });
 
             // Initial check in case the device is already in landscape mode when the page is loaded
             orientation = (window.orientation === 0 || window.orientation === 180) ? 'portrait' : 'landscape';
             document.body.className = orientation;
+            video.setAttribute("src", orientation === 'portrait' ? "carousel-mobile.mp4" : "carousel-desktop.mp4");
 
             // Video play/pause on tap or click
-            const video = document.querySelector("video");
             video.addEventListener("click", () => video.paused ? video.play() : video.pause());
 
             // Event listeners for the logo click, and the close-btn click
@@ -281,7 +287,7 @@
         <img id="logo" src="logo.png" />
     </header>
     <div class="hero">
-        <video src="carousel-mobile.mp4" playsinline="true" muted="true" loop="true" autoplay="true"></video>
+        <video playsinline="true" muted="true" loop="true" autoplay="true"></video>
     </div>
     <div class="content">
         <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
