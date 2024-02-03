@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- todo: remove robots.txt before site launch -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -193,23 +195,17 @@
 
                 // Use Fetch API to submit the form data
                 fetch(form.action, {
+                    mode: "no-cors",
                     method: form.method,
                     body: formData,
                 })
                     .then(response => {
-                        if (response.ok) {
-                            return response.json(); // Assuming the server responds with JSON
-                        } else {
-                            throw new Error('Server responded with an error!');
-                        }
-                    })
-                    .then(data => {
-                        // Display success message
                         messagePlaceholder.textContent = "Thank you! Your submission has been received.";
                     })
                     .catch(error => {
-                        // Display error message on failure
-                        messagePlaceholder.textContent = "Error occurred. Please try again.";
+                        // Display error message on failure, including the error message that
+                        // now specifies it's a server error with the status code
+                        messagePlaceholder.textContent = "An error has occured. Please try again later.";
                     });
             });
         });
