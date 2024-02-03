@@ -190,6 +190,17 @@
             form.addEventListener("submit", function (event) {
                 event.preventDefault(); // Prevent default form submission
 
+                // Validate email address
+                const emailInput = form.querySelector('#MERGE0');
+                const emailValue = emailInput.value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email pattern
+
+                if (!emailRegex.test(emailValue)) {
+                    // If the email does not match the pattern, display an error message
+                    messagePlaceholder.innerHTML = "Please enter a valid email address.";
+                    return; // Stop the form submission
+                }
+
                 // Use FormData to collect form data
                 const formData = new FormData(form);
 
@@ -200,12 +211,12 @@
                     body: formData,
                 })
                     .then(response => {
-                        messagePlaceholder.textContent = "Thank you! Your submission has been received.";
+                        messagePlaceholder.innerHTML = "Thank you!<br/>Your submission has been received.";
                     })
                     .catch(error => {
                         // Display error message on failure, including the error message that
                         // now specifies it's a server error with the status code
-                        messagePlaceholder.textContent = "An error has occured. Please try again later.";
+                        messagePlaceholder.innerHTML = "An error has occured.<br/>Please try again later.";
                     });
             });
         });
@@ -221,7 +232,7 @@
     </div>
     <div class="content">
         <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
-        <form action="https://gmail.us21.list-manage.com/subscribe/post" method="POST">
+        <form action="https://gmail.us21.list-manage.com/subscribe/post" method="POST" novalidate>
             <input type="hidden" name="u" value="e7f83e702318920efe670e9b1">
             <input type="hidden" name="id" value="597f4b8abc">
             <!-- people should not fill these in and expect good things -->
