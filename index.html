@@ -17,21 +17,26 @@
             font-size: 4.25vw;
             line-height: 1.5;
             /* 1.5 for desktop */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         p {
             margin: 0 0 1em 0;
+            text-align: center;
+        }
+
+        header {
+            height: 3.75em;
+            overflow: hidden;
+        }
+
+        header .logo {
+            display: block;
+            width: 45%;
+            margin: 0.25em auto;
         }
 
         .hero {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: hidden;
             margin-bottom: 2em;
         }
 
@@ -52,13 +57,6 @@
         .hero video {
             width: 100%;
             display: block;
-            margin-top: 3.75em;
-        }
-
-        .hero .logo {
-            position: absolute;
-            width: 45%;
-            top: 0.25em;
         }
 
         .content {
@@ -176,9 +174,11 @@
 </head>
 
 <body>
+    <header>
+        <img class="logo" src="logo.png" />
+    </header>
     <div class="hero">
         <video src="carousel-mobile.mp4" playsinline="true" muted="true" loop="true" autoplay="true"></video>
-        <img class="logo" src="logo.png" />
     </div>
     <div class="content">
         <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
