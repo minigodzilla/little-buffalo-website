@@ -193,20 +193,21 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // Listen for the orientationchange event, populate a global variable, add a classname to body, populate video src
             const video = document.querySelector("video");
-            let orientation;
-            window.addEventListener('orientationchange', () => {
-                // Check if the orientation is in portrait mode and set the class name accordingly
-                orientation = (window.orientation === 0 || window.orientation === 180) ? 'portrait' : 'landscape';
+            const form = document.querySelector("form");
+            const emailInput = form.querySelector('#MERGE0');
+            const allInputs = form.querySelectorAll('input');
+            const submitMessage = document.getElementById("submit-message");
+
+            const orientationCheck = () => {
+                // Check the device orientation and set the orientation variable, body class name and video src accordingly
+                const orientation = (window.orientation === 0 || window.orientation === 180) ? 'portrait' : 'landscape';
                 document.body.className = orientation;
                 video.setAttribute("src", orientation === 'portrait' ? "carousel-mobile.mp4" : "carousel-desktop.mp4");
-            });
+            };
 
-            // Initial check in case the device is already in landscape mode when the page is loaded
-            orientation = (window.orientation === 0 || window.orientation === 180) ? 'portrait' : 'landscape';
-            document.body.className = orientation;
-            video.setAttribute("src", orientation === 'portrait' ? "carousel-mobile.mp4" : "carousel-desktop.mp4");
+            window.addEventListener('orientationchange', orientationCheck);
+            orientationCheck();
 
             // Video play/pause on tap or click
             video.addEventListener("click", () => video.paused ? video.play() : video.pause());
@@ -216,12 +217,8 @@
             document.querySelector('#close-btn').addEventListener('click', () => document.body.classList.remove('qr-shown'));
 
             // Select the form and add a placeholder for messages
-            const form = document.querySelector("form");
-            const messagePlaceholder = document.getElementById("submit-message");
 
             // Intercept form submission
-            const emailInput = form.querySelector('#MERGE0');
-            const allInputs = form.querySelectorAll('input');
 
             // Event listener to control scrolling when you focus/blur on the email input
             emailInput.addEventListener("focus", function () {
@@ -243,7 +240,7 @@
 
                 if (!emailRegex.test(emailValue)) {
                     // If the email does not match the pattern, display an error message
-                    messagePlaceholder.innerHTML = "Please enter a valid email address.";
+                    submitMessage.innerHTML = "Please enter a valid email address.";
                     // If on a device with portrait orientation, scroll to top of page
                     if (orientation === 'portrait') window.scrollTo(0, 0);
                     return; // Stop the form submission
@@ -266,14 +263,14 @@
                         // remove focus from any inputs
                         document.activeElement.blur();
                         form.className = "submit-completed";
-                        messagePlaceholder.innerHTML = "Thank you!<br/>Your submission has been received.";
+                        submitMessage.innerHTML = "Thank you!<br/>Your submission has been received.";
                         // If on a device with portrait orientation, scroll to top of page
                         if (orientation === 'portrait') window.scrollTo(0, 0);
                     })
                     .catch(error => {
                         // Display error message on failure, including the error message that
                         // now specifies it's a server error with the status code
-                        messagePlaceholder.innerHTML = "An error has occured.<br/>Please try again later.";
+                        submitMessage.innerHTML = "An error has occured.<br/>Please try again later.";
                         // If on a device with portrait orientation, scroll to top of page
                         if (orientation === 'portrait') window.scrollTo(0, 0);
                     });
