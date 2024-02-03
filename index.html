@@ -17,6 +17,7 @@
             font-size: 4.25vw;
             line-height: 1.5;
             /* 1.5 for desktop */
+            overflow: hidden;
         }
 
         p {
@@ -29,7 +30,7 @@
             overflow: hidden;
         }
 
-        header .logo {
+        header #logo {
             display: block;
             width: 45%;
             margin: 0.25em auto;
@@ -124,9 +125,41 @@
             font-weight: bold;
             margin-bottom: 1.5em;
         }
+
+        .qr-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.75);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 500ms ease;
+        }
+
+        body.qr-shown .qr-panel {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .qr-panel #close-btn {
+            position: absolute;
+            top: 1.5em;
+            right: 1.5em;
+            width: 2em;
+        }
+
+        .qr-panel .qr {
+            display: block;
+            width: 75%;
+            margin: 10em auto 0 auto;
+            mix-blend-mode: screen;
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // video play/pause on tap or click
             const video = document.querySelector("video");
             video.addEventListener("click", function () {
                 if (this.paused) {
@@ -134,6 +167,16 @@
                 } else {
                     this.pause();
                 }
+            });
+
+            // Event listener for the logo click
+            document.querySelector('#logo').addEventListener('click', () => {
+                document.body.classList.add('qr-shown');
+            });
+
+            // Event listener for the close button click
+            document.querySelector('#close-btn').addEventListener('click', () => {
+                document.body.classList.remove('qr-shown');
             });
 
             // Select the form and add a placeholder for messages
@@ -175,7 +218,7 @@
 
 <body>
     <header>
-        <img class="logo" src="logo.png" />
+        <img id="logo" src="logo.png" />
     </header>
     <div class="hero">
         <video src="carousel-mobile.mp4" playsinline="true" muted="true" loop="true" autoplay="true"></video>
@@ -199,6 +242,10 @@
             <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" size="25" placeholder="Enter your email address">
             <input type="submit" class="formEmailButton" name="submit" value="Submit">
         </form>
+    </div>
+    <div class="qr-panel">
+        <img id="close-btn" src="close-btn.png" />
+        <img class="qr" src="qr.png" />
     </div>
     <!-- <img src="del-mobile-screen.png" style="position: absolute; top: 0; left: 0; width: 100%; opacity: 0.45; pointer-events: none;"/> -->
 </body>
