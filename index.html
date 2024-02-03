@@ -186,31 +186,20 @@
         document.addEventListener("DOMContentLoaded", () => {
             // video play/pause on tap or click
             const video = document.querySelector("video");
-            video.addEventListener("click", function () {
-                if (this.paused) {
-                    this.play();
-                } else {
-                    this.pause();
-                }
-            });
+            video.addEventListener("click", () => video.paused ? video.play() : video.pause());
 
-            // Event listener for the logo click
-            document.querySelector('#logo').addEventListener('click', () => {
-                document.body.classList.add('qr-shown');
-            });
-
-            // Event listener for the close button click
-            document.querySelector('#close-btn').addEventListener('click', () => {
-                document.body.classList.remove('qr-shown');
-            });
+            // event listener for the logo click, and the close-btn click
+            document.querySelector('#logo').addEventListener('click', () => document.body.classList.add('qr-shown'));
+            document.querySelector('#close-btn').addEventListener('click', () => document.body.classList.remove('qr-shown'));
 
             // Select the form and add a placeholder for messages
             const form = document.querySelector("form");
             const messagePlaceholder = document.getElementById("submit-message");
 
             // Intercept form submission
-            form.addEventListener("submit", function (event) {
-                event.preventDefault(); // Prevent default form submission
+            form.addEventListener("submit", event => {
+                // Prevent default form submission
+                event.preventDefault();
 
                 // Validate email address
                 const emailInput = form.querySelector('#MERGE0');
