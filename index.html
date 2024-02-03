@@ -197,12 +197,19 @@
             const messagePlaceholder = document.getElementById("submit-message");
 
             // Intercept form submission
+            const emailInput = form.querySelector('#MERGE0');
+
+            // Add blur event listener to the email input
+            emailInput.addEventListener("blur", function () {
+                // Scroll to the top of the page
+                window.scrollTo(0, 0);
+            });
+
             form.addEventListener("submit", event => {
                 // Prevent default form submission
                 event.preventDefault();
 
                 // Validate email address
-                const emailInput = form.querySelector('#MERGE0');
                 const emailValue = emailInput.value;
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email pattern
 
