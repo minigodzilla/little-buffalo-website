@@ -10,7 +10,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
+            height: 100vh;
             margin: 0;
             padding: 0;
             background-color: #000;
@@ -184,6 +189,18 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // Listen for the orientationchange event, populate a global variable, add a classname to body
+            let orientation;
+            window.addEventListener('orientationchange', () => {
+                // Check if the orientation is in portrait mode and set the class name accordingly
+                orientation = (window.orientation === 0 || window.orientation === 180) ? 'portrait' : 'landscape';
+                document.body.className = orientation;
+            });
+
+            // Initial check in case the device is already in landscape mode when the page is loaded
+            orientation = (window.orientation === 0 || window.orientation === 180) ? 'portrait' : 'landscape';
+            document.body.className = orientation;
+
             // Video play/pause on tap or click
             const video = document.querySelector("video");
             video.addEventListener("click", () => video.paused ? video.play() : video.pause());
@@ -200,10 +217,14 @@
             const emailInput = form.querySelector('#MERGE0');
             const allInputs = form.querySelectorAll('input');
 
-            // Add blur event listener to the email input
+            // Event listener to control scrolling when you focus/blur on the email input
+            emailInput.addEventListener("focus", function () {
+                // If on a device with portrait orientation, scroll to bottom of page
+                if (orientation === 'portrait') window.scrollTo(0, document.body.scrollHeight);
+            });
             emailInput.addEventListener("blur", function () {
-                // Scroll to the top of the page
-                window.scrollTo(0, 0);
+                // If on a device with portrait orientation, scroll to top of page
+                if (orientation === 'portrait') window.scrollTo(0, 0);
             });
 
             form.addEventListener("submit", event => {
@@ -217,8 +238,8 @@
                 if (!emailRegex.test(emailValue)) {
                     // If the email does not match the pattern, display an error message
                     messagePlaceholder.innerHTML = "Please enter a valid email address.";
-                    // Scroll to the top of the page
-                    window.scrollTo(0, 0);
+                    // If on a device with portrait orientation, scroll to top of page
+                    if (orientation === 'portrait') window.scrollTo(0, 0);
                     return; // Stop the form submission
                 }
 
@@ -240,15 +261,15 @@
                         document.activeElement.blur();
                         form.className = "submit-completed";
                         messagePlaceholder.innerHTML = "Thank you!<br/>Your submission has been received.";
-                        // Scroll to the top of the page
-                        window.scrollTo(0, 0);
+                        // If on a device with portrait orientation, scroll to top of page
+                        if (orientation === 'portrait') window.scrollTo(0, 0);
                     })
                     .catch(error => {
                         // Display error message on failure, including the error message that
                         // now specifies it's a server error with the status code
                         messagePlaceholder.innerHTML = "An error has occured.<br/>Please try again later.";
-                        // Scroll to the top of the page
-                        window.scrollTo(0, 0);
+                        // If on a device with portrait orientation, scroll to top of page
+                        if (orientation === 'portrait') window.scrollTo(0, 0);
                     });
             });
         });
