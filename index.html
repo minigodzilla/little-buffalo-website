@@ -184,11 +184,11 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // video play/pause on tap or click
+            // Video play/pause on tap or click
             const video = document.querySelector("video");
             video.addEventListener("click", () => video.paused ? video.play() : video.pause());
 
-            // event listener for the logo click, and the close-btn click
+            // Event listeners for the logo click, and the close-btn click
             document.querySelector('#logo').addEventListener('click', () => document.body.classList.add('qr-shown'));
             document.querySelector('#close-btn').addEventListener('click', () => document.body.classList.remove('qr-shown'));
 
@@ -224,6 +224,8 @@
                     body: formData,
                 })
                     .then(response => {
+                        // remove focus from any inputs
+                        document.activeElement.blur();
                         form.className = "submit-completed";
                         messagePlaceholder.innerHTML = "Thank you!<br/>Your submission has been received.";
                     })
