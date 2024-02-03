@@ -216,10 +216,6 @@
             document.querySelector('#logo').addEventListener('click', () => document.body.classList.add('qr-shown'));
             document.querySelector('#close-btn').addEventListener('click', () => document.body.classList.remove('qr-shown'));
 
-            // Select the form and add a placeholder for messages
-
-            // Intercept form submission
-
             // Event listener to control scrolling when you focus/blur on the email input
             emailInput.addEventListener("focus", function () {
                 // If on a device with portrait orientation, scroll to bottom of page
@@ -246,12 +242,15 @@
                     return; // Stop the form submission
                 }
 
+                // Use FormData to collect form data
+                const formData = new FormData(form);
+
+                // remove focus from any inputs
+                document.activeElement.blur();
+
                 // Disable all form inputs
                 allInputs.forEach(input => input.disabled = true);
                 form.className = "submit-in-progress";
-
-                // Use FormData to collect form data
-                const formData = new FormData(form);
 
                 // Use Fetch API to submit the form data
                 fetch(form.action, {
@@ -260,8 +259,6 @@
                     body: formData,
                 })
                     .then(response => {
-                        // remove focus from any inputs
-                        document.activeElement.blur();
                         form.className = "submit-completed";
                         submitMessage.innerHTML = "Thank you!<br/>Your submission has been received.";
                         // If on a device with portrait orientation, scroll to top of page
