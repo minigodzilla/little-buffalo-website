@@ -216,16 +216,6 @@
             document.querySelector('#logo').addEventListener('click', () => document.body.classList.add('qr-shown'));
             document.querySelector('#close-btn').addEventListener('click', () => document.body.classList.remove('qr-shown'));
 
-            // Event listener to control scrolling when you focus/blur on the email input
-            emailInput.addEventListener("focus", function () {
-                // If on a device with portrait orientation, scroll to bottom of page
-                if (orientation === 'portrait') window.scrollTo(0, document.body.scrollHeight);
-            });
-            emailInput.addEventListener("blur", function () {
-                // If on a device with portrait orientation, scroll to top of page
-                if (orientation === 'portrait') window.scrollTo(0, 0);
-            });
-
             form.addEventListener("submit", event => {
                 // Prevent default form submission
                 event.preventDefault();
@@ -237,8 +227,6 @@
                 if (!emailRegex.test(emailValue)) {
                     // If the email does not match the pattern, display an error message
                     submitMessage.innerHTML = "Please enter a valid email address.";
-                    // If on a device with portrait orientation, scroll to top of page
-                    if (orientation === 'portrait') window.scrollTo(0, 0);
                     return; // Stop the form submission
                 }
 
@@ -261,15 +249,11 @@
                     .then(response => {
                         form.className = "submit-completed";
                         submitMessage.innerHTML = "Thank you!<br/>Your submission has been received.";
-                        // If on a device with portrait orientation, scroll to top of page
-                        if (orientation === 'portrait') window.scrollTo(0, 0);
                     })
                     .catch(error => {
                         // Display error message on failure, including the error message that
                         // now specifies it's a server error with the status code
                         submitMessage.innerHTML = "An error has occured.<br/>Please try again later.";
-                        // If on a device with portrait orientation, scroll to top of page
-                        if (orientation === 'portrait') window.scrollTo(0, 0);
                     });
             });
         });
