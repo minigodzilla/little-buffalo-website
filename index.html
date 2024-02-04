@@ -23,7 +23,7 @@
             line-height: 1.5;
         }
 
-        body.portrait {
+        body.mobile {
             height: 100vh;
             overflow: hidden;
         }
@@ -34,19 +34,16 @@
         }
 
         header {
-            height: 3.75em;
             overflow: hidden;
         }
 
         header #logo {
             display: block;
-            width: 45%;
             margin: 0.25em auto;
         }
 
         .hero {
             position: relative;
-            margin-bottom: 1.5em;
             overflow: hidden;
         }
 
@@ -156,44 +153,61 @@
             position: absolute;
         }
 
-        .qr-panel {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: rgba(0, 0, 0, 0.75);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 500ms ease;
-        }
-
-        body.qr-shown .qr-panel {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .qr-panel #close-btn {
-            position: absolute;
-            top: 1.5em;
-            right: 1.5em;
-            width: 2em;
-        }
-
-        .qr-panel .qr {
-            display: block;
-            width: 75%;
-            margin: 10em auto 0 auto;
-        }
 
         @media only screen and (max-width: 639px) {
             body {
                 font-size: 4.25vw;
             }
 
+            header {
+                height: 3.75em;
+            }
+
+            header #logo {
+                width: 45%;
+            }
+
+            .hero {
+                margin-bottom: 1.5em;
+            }
+
+            .hero video {
+                height: 17.75em;
+            }
+
             form.submit-completed #submit-message {
                 top: 50%;
                 transform: translateY(-50%);
+            }
+
+            .qr-panel {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: rgba(0, 0, 0, 0.75);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 500ms ease;
+            }
+
+            body.qr-shown .qr-panel {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .qr-panel #close-btn {
+                position: absolute;
+                top: 1.5em;
+                right: 1.5em;
+                width: 2em;
+            }
+
+            .qr-panel .qr {
+                display: block;
+                width: 75%;
+                margin: 10em auto 0 auto;
             }
         }
 
@@ -220,6 +234,10 @@
 
             .hero {
                 margin-bottom: 0.5em;
+            }
+
+            .hero video {
+                height: 37.75em;
             }
 
             .hero::after {
@@ -268,15 +286,30 @@
             const emailInput = form.querySelector('#MERGE0');
             const allInputs = form.querySelectorAll('input');
             const submitMessage = form.querySelector("#submit-message");
-            const orientationCheck = () => {
-                // Check the device orientation and set the orientation variable, body class name and video src accordingly
-                const orientation = (window.orientation === 0 || window.orientation === 180) ? 'portrait' : 'landscape';
-                document.body.className = orientation;
-                video.setAttribute("src", orientation === 'portrait' ? "carousel-mobile.mp4" : "carousel-desktop.mp4");
+
+            const resizeHandler = () => {
+                // Check the browser width and set the width variable, body class name and video src accordingly
+                const width = window.innerWidth < 640 ? 'mobile' : 'desktop';
+                document.body.className = width;
+                video.setAttribute("src", width === 'mobile' ? "carousel-mobile.mp4" : "carousel-desktop.mp4");
             };
 
-            window.addEventListener('orientationchange', orientationCheck);
-            orientationCheck();
+            // Debounce function
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            }
+
+            // Using debounce with the resize handler
+            window.addEventListener('resize', debounce(resizeHandler, 100));
+            resizeHandler();
 
             // Video play/pause on tap or click
             video.addEventListener("click", () => video.paused ? video.play() : video.pause());
