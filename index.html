@@ -15,7 +15,6 @@
         }
 
         body {
-            min-height: 100vh;
             margin: 0;
             padding: 0;
             background-color: #000;
@@ -54,10 +53,10 @@
         .hero::after {
             content: "";
             position: absolute;
-            top: -0.01em;
-            right: -0.01em;
-            bottom: -0.01em;
-            left: -0.01em;
+            top: -0.05em;
+            right: -0.05em;
+            bottom: -0.05em;
+            left: -0.05em;
             background-image: url('edges-mobile.png');
             background-repeat: no-repeat;
             background-position: 0 100%;
@@ -155,8 +154,6 @@
 
         form.submit-completed #submit-message {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
         }
 
         .qr-panel {
@@ -193,6 +190,11 @@
             body {
                 font-size: 4.25vw;
             }
+
+            form.submit-completed #submit-message {
+                top: 50%;
+                transform: translateY(-50%);
+            }
         }
 
         @media only screen and (min-width: 640px) {
@@ -200,10 +202,15 @@
                 font-size: 1.3vw;
             }
 
+            .container {
+                height: 44em;
+                overflow: hidden;
+            }
+
             header {
                 position: absolute;
                 width: 100%;
-                height: 6em;
+                height: auto;
                 z-index: 1;
             }
 
@@ -247,6 +254,10 @@
                 margin-left: auto;
                 margin-bottom: 1em;
                 display: block;
+            }
+
+            .qr-panel {
+                display: none;
             }
         }
     </style>
@@ -317,32 +328,34 @@
 </head>
 
 <body>
-    <header>
-        <img id="logo" src="logo.png" />
-    </header>
-    <div class="hero">
-        <video playsinline="true" muted="true" loop="true" autoplay="false"></video>
-    </div>
-    <div class="content">
-        <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
-        <form action="https://gmail.us21.list-manage.com/subscribe/post" method="POST" novalidate>
-            <input type="hidden" name="u" value="e7f83e702318920efe670e9b1">
-            <input type="hidden" name="id" value="597f4b8abc">
-            <!-- people should not fill these in and expect good things -->
-            <div class="field-shift" aria-label="Please leave the following three fields empty" aria-hidden="true">
-                <label for="b_name">Name: </label>
-                <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie" id="b_name">
+    <div class="container">
+        <header>
+            <img id="logo" src="logo.png" />
+        </header>
+        <div class="hero">
+            <video playsinline="true" muted="true" loop="true" autoplay="true"></video>
+        </div>
+        <div class="content">
+            <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
+            <form action="https://gmail.us21.list-manage.com/subscribe/post" method="POST" novalidate>
+                <input type="hidden" name="u" value="e7f83e702318920efe670e9b1">
+                <input type="hidden" name="id" value="597f4b8abc">
+                <!-- people should not fill these in and expect good things -->
+                <div class="field-shift" aria-label="Please leave the following three fields empty" aria-hidden="true">
+                    <label for="b_name">Name: </label>
+                    <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie" id="b_name">
 
-                <label for="b_email">Email: </label>
-                <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
+                    <label for="b_email">Email: </label>
+                    <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
 
-                <label for="b_comment">Comment: </label>
-                <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
-            </div>
-            <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" placeholder="Enter your email address">
-            <input type="submit" name="submit" id="submit" value="Submit">
-            <p id="submit-message"></p>
-        </form>
+                    <label for="b_comment">Comment: </label>
+                    <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
+                </div>
+                <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" placeholder="Enter your email address">
+                <input type="submit" name="submit" id="submit" value="Submit">
+                <p id="submit-message"></p>
+            </form>
+        </div>
     </div>
     <div class="qr-panel">
         <img id="close-btn" src="close-btn.png" />
