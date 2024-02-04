@@ -197,8 +197,7 @@
             const form = document.querySelector("form");
             const emailInput = form.querySelector('#MERGE0');
             const allInputs = form.querySelectorAll('input');
-            const submitMessage = document.getElementById("submit-message");
-
+            const submitMessage = form.querySelector("#submit-message");
             const orientationCheck = () => {
                 // Check the device orientation and set the orientation variable, body class name and video src accordingly
                 const orientation = (window.orientation === 0 || window.orientation === 180) ? 'portrait' : 'landscape';
@@ -251,8 +250,7 @@
                         submitMessage.innerHTML = "Thank you!<br/>Your submission has been received.";
                     })
                     .catch(error => {
-                        // Display error message on failure, including the error message that
-                        // now specifies it's a server error with the status code
+                        // Display error message on failure
                         submitMessage.innerHTML = "An error has occured.<br/>Please try again later.";
                     });
             });
