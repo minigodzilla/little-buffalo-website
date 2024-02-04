@@ -21,8 +21,6 @@
             background-color: #000;
             color: #fff;
             font-family: Montserrat, sans-serif;
-            font-size: 4.25vw;
-            /* 1.5 for desktop */
             line-height: 1.5;
         }
 
@@ -190,6 +188,67 @@
             width: 75%;
             margin: 10em auto 0 auto;
         }
+
+        @media only screen and (max-width: 639px) {
+            body {
+                font-size: 4.25vw;
+            }
+        }
+
+        @media only screen and (min-width: 640px) {
+            body {
+                font-size: 1.3vw;
+            }
+
+            header {
+                position: absolute;
+                width: 100%;
+                height: 6em;
+                z-index: 1;
+            }
+
+            header #logo {
+                width: 25%;
+            }
+
+            .hero {
+                margin-bottom: 0.5em;
+            }
+
+            .hero::after {
+                background-image: url('edge-desktop-b.png');
+                background-size: 100% auto;
+            }
+
+            .content {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .content>p {
+                width: 21em;
+                margin-bottom: auto;
+            }
+
+            form {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: flex-start;
+                width: 29em;
+            }
+
+            form input[type="email"] {
+                margin-bottom: 1em;
+            }
+
+            form input[type="submit"] {
+                width: 9em;
+                margin-left: auto;
+                margin-bottom: 1em;
+                display: block;
+            }
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -228,7 +287,6 @@
                     submitMessage.innerHTML = "Please enter a valid email address.";
                     return; // Stop the form submission
                 }
-
                 // Use FormData to collect form data
                 const formData = new FormData(form);
 
@@ -263,7 +321,7 @@
         <img id="logo" src="logo.png" />
     </header>
     <div class="hero">
-        <video playsinline="true" muted="true" loop="true" autoplay="true"></video>
+        <video playsinline="true" muted="true" loop="true" autoplay="false"></video>
     </div>
     <div class="content">
         <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
@@ -290,7 +348,6 @@
         <img id="close-btn" src="close-btn.png" />
         <img class="qr" src="qr.png" />
     </div>
-    <!-- <img src="del-mobile-screen.png" style="position: absolute; top: 0; left: 0; width: 100%; opacity: 0.45; pointer-events: none;"/> -->
 </body>
 
 </html>
