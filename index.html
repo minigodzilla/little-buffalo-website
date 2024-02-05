@@ -20,19 +20,19 @@
     <meta name="twitter:image" content="https://littlebuffalostudios.com/og-image.jpg">
     <style>
         @font-face {
-            font-family: 'Montserrat';
+            font-family: "Montserrat";
             font-style: normal;
             font-weight: 400;
             font-display: swap;
-            src: url(fonts/montserrat-400.woff2) format('woff2');
+            src: url("fonts/montserrat-400.woff2") format("woff2");
         }
 
         @font-face {
-            font-family: 'Montserrat';
+            font-family: "Montserrat";
             font-style: normal;
             font-weight: 700;
             font-display: swap;
-            src: url(fonts/montserrat-700.woff2) format('woff2');
+            src: url("fonts/montserrat-700.woff2") format("woff2");
         }
 
         html {
@@ -321,13 +321,14 @@
             const video = document.querySelector("#video");
             const videoPoster = document.querySelector("#video-poster");
             const form = document.querySelector("form");
-            const emailInput = form.querySelector('#EMAIL');
-            const allInputs = form.querySelectorAll('input');
+            const emailInput = form.querySelector("#EMAIL");
+            const hpInput = form.querySelector("#b_e7f83e702318920efe670e9b1_597f4b8abc");
+            const allInputs = form.querySelectorAll("input");
             const statusMessage = form.querySelector("#status-message");
 
             const resizeHandler = () => {
-                // Check the browser width and set the width variable, body class name and video src accordingly
-                const width = window.innerWidth < 640 ? 'mobile' : 'desktop';
+                // Check the browser width and set the body class and video src accordingly
+                const width = window.innerWidth < 640 ? "mobile" : "desktop";
                 document.body.className = width;
                 videoPoster.src = "carousel-" + width + ".jpg";
                 video.src = "carousel-" + width + ".mp4";
@@ -347,15 +348,15 @@
             }
 
             // Using debounce with the resize handler
-            window.addEventListener('resize', debounce(resizeHandler, 100));
+            window.addEventListener("resize", debounce(resizeHandler, 100));
             resizeHandler();
 
             // Video play/pause on tap or click
             video.addEventListener("click", () => video.paused ? video.play() : video.pause());
 
             // Event listeners for the logo click, and the close-btn click
-            document.querySelector('#logo').addEventListener('click', () => document.body.classList.add('qr-shown'));
-            document.querySelector('#close-btn').addEventListener('click', () => document.body.classList.remove('qr-shown'));
+            document.querySelector("#logo").addEventListener("click", () => document.body.classList.add("qr-shown"));
+            document.querySelector("#close-btn").addEventListener("click", () => document.body.classList.remove("qr-shown"));
 
             form.addEventListener("submit", event => {
                 // Prevent default form submission
@@ -372,10 +373,9 @@
                 }
 
                 // Get the Submit URL
-                let url = form.getAttribute('action');
-                url = url.replace('/post?u=', '/post-json?u=');
-                url += '&' + encodeURIComponent(emailInput.name) + '=' + encodeURIComponent(emailInput.value) + '&c=displayMailChimpStatus';
-                console.log(url);
+                let url = form.getAttribute("action");
+                url = url.replace("/post?u=", "/post-json?u=");
+                url += "&" + encodeURIComponent(emailInput.name) + "=" + encodeURIComponent(emailInput.value) + "&" + encodeURIComponent(hpInput.name) + "=" + encodeURIComponent(hpInput.value) + "&c=displayMailChimpStatus";
 
                 // remove focus from any inputs
                 document.activeElement.blur();
@@ -385,11 +385,11 @@
                 form.className = "submit-in-progress";
 
                 // Create script with url and callback (if specified)
-                const script = window.document.createElement('script');
+                const script = window.document.createElement("script");
                 script.src = url;
 
                 // Insert script tag into the DOM (append to <head>)
-                const ref = window.document.getElementsByTagName('script')[0];
+                const ref = window.document.getElementsByTagName("script")[0];
                 ref.parentNode.insertBefore(script, ref);
 
                 // After the script is loaded (and executed), remove it
@@ -404,11 +404,9 @@
                 // Make sure the data is in the right format
                 if (!data.result || !data.msg) return;
 
-                console.log(data);
-
                 statusMessage.innerHTML = data.msg;
 
-                if (data.result === 'success') {
+                if (data.result === "success") {
                     form.className = "submit-completed";
                 }
                 else {
@@ -437,9 +435,9 @@
             <form action="https://gmail.us21.list-manage.com/subscribe/post?u=e7f83e702318920efe670e9b1&amp;id=597f4b8abc&amp;f_id=0056f5e6f0" method="POST" novalidate>
                 <!-- real users should not fill this in and expect good things -->
                 <div class="field-shift" aria-label="Please leave the following field empty" aria-hidden="true">
-                    <input type="text" name="b_e7f83e702318920efe670e9b1_597f4b8abc" tabindex="-1" value="">
+                    <input type="text" name="b_e7f83e702318920efe670e9b1_597f4b8abc" id="b_e7f83e702318920efe670e9b1_597f4b8abc" tabindex="-1" value="">
                 </div>
-                <input type="email" autocapitalize="off" autocorrect="off" name="EMAIL" id="EMAIL" placeholder="Enter your email address" tabindex="0">
+                <input type="email" autocomplete="email" name="EMAIL" id="EMAIL" placeholder="Enter your email address" tabindex="0">
                 <input type="submit" name="submit" id="submit" value="Submit" tabindex="0">
                 <p id="status-message"></p>
             </form>
