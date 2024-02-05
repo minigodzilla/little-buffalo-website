@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- todo: remove robots.txt before site launch -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Little Buffalo Studios</title>
+    <meta name="description" content="A game studio with an Indigenous difference.">
+    <meta name="keywords" content="indigenous, video, game, studio">
+    <meta name="author" content="Little Buffalo Studios">
+    <meta property="og:title" content="Little Buffalo Studios">
+    <meta property="og:site_name" content="Little Buffalo Studios">
+    <meta property="og:url" content="https://littlebuffalostudios.com" />
+    <meta property="og:description" content="A game studio with an Indigenous difference.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://littlebuffalostudios.com/og-image.jpg">
+    <meta name="twitter:card" content="https://littlebuffalostudios.com/og-image.jpg">
+    <meta name="twitter:title" content="Little Buffalo Studios">
+    <meta name="twitter:description" content="A game studio with an Indigenous difference.">
+    <meta name="twitter:image" content="https://littlebuffalostudios.com/og-image.jpg">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+            src: url(fonts/montserrat-400.woff2) format('woff2');
+        }
+
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            font-display: swap;
+            src: url(fonts/montserrat-700.woff2) format('woff2');
+        }
 
         html {
             scroll-behavior: smooth;
@@ -47,24 +72,16 @@
             overflow: hidden;
         }
 
-        .hero::after {
-            content: "";
-            position: absolute;
-            top: -0.05em;
-            right: -0.05em;
-            bottom: -0.05em;
-            left: -0.05em;
-            background-image: url('edges-mobile.png');
-            background-repeat: no-repeat;
-            background-position: 0 100%;
-            background-size: 100% 100%;
-            pointer-events: none;
-        }
-
+        .hero img,
         .hero video {
             width: 100%;
             display: block;
             object-fit: cover;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 0;
         }
 
         .content {
@@ -164,9 +181,11 @@
             }
 
             .hero {
+                height: 17.75em;
                 margin-bottom: 1.5em;
             }
 
+            .hero img,
             .hero video {
                 height: 17.75em;
             }
@@ -246,16 +265,13 @@
             }
 
             .hero {
+                height: 37.75em;
                 margin-bottom: 0.5em;
             }
 
+            .hero img,
             .hero video {
                 height: 37.75em;
-            }
-
-            .hero::after {
-                background-image: url('edge-desktop-b.png');
-                background-size: 100% auto;
             }
 
             .content {
@@ -294,7 +310,8 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const video = document.querySelector("video");
+            const video = document.querySelector("#video");
+            const videoPoster = document.querySelector("#video-poster");
             const form = document.querySelector("form");
             const emailInput = form.querySelector('#MERGE0');
             const allInputs = form.querySelectorAll('input');
@@ -304,6 +321,7 @@
                 // Check the browser width and set the width variable, body class name and video src accordingly
                 const width = window.innerWidth < 640 ? 'mobile' : 'desktop';
                 document.body.className = width;
+                videoPoster.setAttribute("src", width === 'mobile' ? "carousel-mobile.jpg" : "carousel-desktop.jpg");
                 video.setAttribute("src", width === 'mobile' ? "carousel-mobile.mp4" : "carousel-desktop.mp4");
             };
 
@@ -376,10 +394,13 @@
 <body>
     <div class="container">
         <header>
-            <img id="logo" src="logo.png" />
+            <img id="logo" src="logo.png" alt="Little Buffalo Studios" />
         </header>
         <div class="hero">
-            <video playsinline="true" muted="true" loop="true" autoplay="true"></video>
+            <img id="video-poster" src="carousel-mobile.jpg" loading="lazy" alt="A young fox exploring a deep forest ravine discovers two deer crossing a log, with early morning sun covering everything in a golden hue." />
+            <video id="video" src="carousel-mobile.mp4" poster="carousel-mobile.jpg" preload="none" playsinline="true" muted="true" loop="true" autoplay="true" loading="lazy">
+                <track kind="captions" srclang="en" src="carousel.vtt" />
+            </video>
         </div>
         <div class="content">
             <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
@@ -397,15 +418,15 @@
                     <label for="b_comment">Comment: </label>
                     <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
                 </div>
-                <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" placeholder="Enter your email address">
-                <input type="submit" name="submit" id="submit" value="Submit">
+                <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" placeholder="Enter your email address" tabindex="0">
+                <input type="submit" name="submit" id="submit" value="Submit" tabindex="0">
                 <p id="submit-message"></p>
             </form>
         </div>
     </div>
     <div class="qr-panel">
-        <img id="close-btn" src="close-btn.png" />
-        <img class="qr" src="qr.png" />
+        <img id="close-btn" src="close-btn.png" alt="QR code" />
+        <img class="qr" src="qr.png" alt="Close button" />
     </div>
 </body>
 
