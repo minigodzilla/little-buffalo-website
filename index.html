@@ -153,6 +153,10 @@
             transform: scale(0.95);
         }
 
+        form #status-message {
+            font-size: 0.75em;
+        }
+
         form.submit-in-progress {
             opacity: 0.5;
             pointer-events: none;
@@ -162,7 +166,7 @@
             opacity: 0;
         }
 
-        form.submit-completed #submit-message {
+        form.submit-completed #status-message {
             position: absolute;
         }
 
@@ -190,7 +194,7 @@
                 height: 17.75em;
             }
 
-            form.submit-completed #submit-message {
+            form.submit-completed #status-message {
                 top: 50%;
                 transform: translateY(-50%);
             }
@@ -210,6 +214,10 @@
 
             form input[type="submit"] {
                 margin-bottom: 1.5em;
+            }
+
+            form #status-message {
+                padding: 3em 0;
             }
 
             .qr-panel {
@@ -313,16 +321,16 @@
             const video = document.querySelector("#video");
             const videoPoster = document.querySelector("#video-poster");
             const form = document.querySelector("form");
-            const emailInput = form.querySelector('#MERGE0');
+            const emailInput = form.querySelector('#EMAIL');
             const allInputs = form.querySelectorAll('input');
-            const submitMessage = form.querySelector("#submit-message");
+            const statusMessage = form.querySelector("#status-message");
 
             const resizeHandler = () => {
                 // Check the browser width and set the width variable, body class name and video src accordingly
                 const width = window.innerWidth < 640 ? 'mobile' : 'desktop';
                 document.body.className = width;
-                videoPoster.setAttribute("src", width === 'mobile' ? "carousel-mobile.jpg" : "carousel-desktop.jpg");
-                video.setAttribute("src", width === 'mobile' ? "carousel-mobile.mp4" : "carousel-desktop.mp4");
+                videoPoster.src = "carousel-" + width + ".jpg";
+                video.src = "carousel-" + width + ".mp4";
             };
 
             // Debounce function
@@ -359,11 +367,15 @@
 
                 if (!emailRegex.test(emailValue)) {
                     // If the email does not match the pattern, display an error message
-                    submitMessage.innerHTML = "Please enter a valid email address.";
+                    statusMessage.innerHTML = "Please enter a valid email address.";
                     return; // Stop the form submission
                 }
-                // Use FormData to collect form data
-                const formData = new FormData(form);
+
+                // Get the Submit URL
+                let url = form.getAttribute('action');
+                url = url.replace('/post?u=', '/post-json?u=');
+                url += '&' + encodeURIComponent(emailInput.name) + '=' + encodeURIComponent(emailInput.value) + '&c=displayMailChimpStatus';
+                console.log(url);
 
                 // remove focus from any inputs
                 document.activeElement.blur();
@@ -372,21 +384,39 @@
                 allInputs.forEach(input => input.disabled = true);
                 form.className = "submit-in-progress";
 
-                // Use Fetch API to submit the form data
-                fetch(form.action, {
-                    mode: "no-cors",
-                    method: form.method,
-                    body: formData,
-                })
-                    .then(response => {
-                        form.className = "submit-completed";
-                        submitMessage.innerHTML = "Thank you!<br/>Your submission has been received.";
-                    })
-                    .catch(error => {
-                        // Display error message on failure
-                        submitMessage.innerHTML = "An error has occured.<br/>Please try again later.";
-                    });
+                // Create script with url and callback (if specified)
+                const script = window.document.createElement('script');
+                script.src = url;
+
+                // Insert script tag into the DOM (append to <head>)
+                const ref = window.document.getElementsByTagName('script')[0];
+                ref.parentNode.insertBefore(script, ref);
+
+                // After the script is loaded (and executed), remove it
+                script.onload = function () {
+                    this.remove();
+                };
             });
+
+            // Display the form status
+            window.displayMailChimpStatus = (data) => {
+
+                // Make sure the data is in the right format
+                if (!data.result || !data.msg) return;
+
+                console.log(data);
+
+                statusMessage.innerHTML = data.msg;
+
+                if (data.result === 'success') {
+                    form.className = "submit-completed";
+                }
+                else {
+                    // re-enable all form inputs
+                    allInputs.forEach(input => input.disabled = false);
+                    form.className = "";
+                }
+            };
         });
     </script>
 </head>
@@ -404,23 +434,14 @@
         </div>
         <div class="content">
             <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
-            <form action="https://gmail.us21.list-manage.com/subscribe/post" method="POST" novalidate>
-                <input type="hidden" name="u" value="e7f83e702318920efe670e9b1">
-                <input type="hidden" name="id" value="597f4b8abc">
-                <!-- people should not fill these in and expect good things -->
-                <div class="field-shift" aria-label="Please leave the following three fields empty" aria-hidden="true">
-                    <label for="b_name">Name: </label>
-                    <input type="text" name="b_name" tabindex="-1" value="" placeholder="Freddie" id="b_name">
-
-                    <label for="b_email">Email: </label>
-                    <input type="email" name="b_email" tabindex="-1" value="" placeholder="youremail@gmail.com" id="b_email">
-
-                    <label for="b_comment">Comment: </label>
-                    <textarea name="b_comment" tabindex="-1" placeholder="Please comment" id="b_comment"></textarea>
+            <form action="https://gmail.us21.list-manage.com/subscribe/post?u=e7f83e702318920efe670e9b1&amp;id=597f4b8abc&amp;f_id=0056f5e6f0" method="POST" novalidate>
+                <!-- real users should not fill this in and expect good things -->
+                <div class="field-shift" aria-label="Please leave the following field empty" aria-hidden="true">
+                    <input type="text" name="b_e7f83e702318920efe670e9b1_597f4b8abc" tabindex="-1" value="">
                 </div>
-                <input type="email" autocapitalize="off" autocorrect="off" name="MERGE0" id="MERGE0" placeholder="Enter your email address" tabindex="0">
+                <input type="email" autocapitalize="off" autocorrect="off" name="EMAIL" id="EMAIL" placeholder="Enter your email address" tabindex="0">
                 <input type="submit" name="submit" id="submit" value="Submit" tabindex="0">
-                <p id="submit-message"></p>
+                <p id="status-message"></p>
             </form>
         </div>
     </div>
