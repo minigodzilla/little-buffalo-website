@@ -325,19 +325,28 @@
             const hpInput = form.querySelector("#b_e7f83e702318920efe670e9b1_597f4b8abc");
             const allInputs = form.querySelectorAll("input");
             const statusMessage = form.querySelector("#status-message");
+            let device; // device type, gets populated "mobile" or "desktop" by the resize handler
 
             const resizeHandler = () => {
-                // Check the browser width and set the body class and video src accordingly
-                const width = window.innerWidth < 640 ? "mobile" : "desktop";
-                document.body.className = width;
-                videoPoster.src = "carousel-" + width + ".jpg";
-                video.src = "carousel-" + width + ".mp4";
+                // Capture previous device type
+                const prevDevice = device;
+
+                // Check the current browser width and toggle the device type accordingly
+                device = window.innerWidth < 640 ? "mobile" : "desktop";
+
+                // if there's a change between previous and current device type, set the body class and video src accordingly
+                if (device !== prevDevice) {
+                    document.body.className = device;
+                    const filename = "carousel-" + device;
+                    videoPoster.src = filename + ".jpg";
+                    video.src = filename + ".mp4";
+                }
             };
 
             // Debounce function
-            function debounce(func, wait) {
+            const debounce = (func, wait) => {
                 let timeout;
-                return function executedFunction(...args) {
+                return (...args) => {
                     const later = () => {
                         clearTimeout(timeout);
                         func(...args);
@@ -345,7 +354,8 @@
                     clearTimeout(timeout);
                     timeout = setTimeout(later, wait);
                 };
-            }
+            };
+
 
             // Using debounce with the resize handler
             window.addEventListener("resize", debounce(resizeHandler, 100));
@@ -372,7 +382,7 @@
                     return; // Stop the form submission
                 }
 
-                // Get the Submit URL
+                // Get the Submit URL from the <form>
                 let url = form.getAttribute("action");
                 url = url.replace("/post?u=", "/post-json?u=");
                 url += "&" + encodeURIComponent(emailInput.name) + "=" + encodeURIComponent(emailInput.value) + "&" + encodeURIComponent(hpInput.name) + "=" + encodeURIComponent(hpInput.value) + "&c=displayMailChimpStatus";
