@@ -232,7 +232,7 @@
                 transition: opacity 500ms ease;
             }
 
-            body.qr-shown .qr-panel {
+            .qr-panel.qr-shown {
                 opacity: 1;
                 pointer-events: all;
             }
@@ -325,6 +325,7 @@
             const hpInput = form.querySelector("#b_e7f83e702318920efe670e9b1_597f4b8abc");
             const allInputs = form.querySelectorAll("input");
             const statusMessage = form.querySelector("#status-message");
+            const qrPanel = document.querySelector(".qr-panel");
             let device; // device type, gets populated "mobile" or "desktop" by the resize handler
 
             const resizeHandler = () => {
@@ -365,8 +366,8 @@
             video.addEventListener("click", () => video.paused ? video.play() : video.pause());
 
             // Event listeners for the logo click, and the close-btn click
-            document.querySelector("#logo").addEventListener("click", () => document.body.classList.add("qr-shown"));
-            document.querySelector("#close-btn").addEventListener("click", () => document.body.classList.remove("qr-shown"));
+            document.querySelector("#logo").addEventListener("click", () => qrPanel.classList.add("qr-shown"));
+            document.querySelector("#close-btn").addEventListener("click", () => qrPanel.classList.remove("qr-shown"));
 
             form.addEventListener("submit", event => {
                 // Prevent default form submission
