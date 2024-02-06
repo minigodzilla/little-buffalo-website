@@ -408,17 +408,18 @@
 
             // Display the form status
             window.displayMailChimpStatus = (data) => {
-
                 // Make sure the data is in the right format
                 if (!data.result || !data.msg) return;
 
+                // Display the endpoint status message
                 statusMessage.innerHTML = data.msg;
 
+                // If successful, set the appropriate class name to the form;
+                // otherwise, re-enable all form inputs and reset the form class name
                 if (data.result === "success") {
                     form.className = "submit-completed";
                 }
                 else {
-                    // re-enable all form inputs
                     allInputs.forEach(input => input.disabled = false);
                     form.className = "";
                 }
