@@ -192,6 +192,11 @@
                 height: 17.75em;
             }
 
+            .hero img.desktop,
+            .hero video.desktop {
+                display: none;
+            }
+
             form.submit-completed #status-message {
                 top: 50%;
                 transform: translateY(-50%);
@@ -280,6 +285,11 @@
                 height: 37.75em;
             }
 
+            .hero img.mobile,
+            .hero video.mobile {
+                display: none;
+            }
+
             .content {
                 flex-direction: row;
                 justify-content: center;
@@ -316,8 +326,7 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const video = document.querySelector("#video");
-            const videoPoster = document.querySelector("#video-poster");
+            const videos = document.querySelectorAll("video");
             const form = document.querySelector("form");
             const emailInput = form.querySelector("#EMAIL");
             const hpInput = form.querySelector("#b_e7f83e702318920efe670e9b1_597f4b8abc");
@@ -333,12 +342,19 @@
                 // Check the current browser width and toggle the device type accordingly
                 device = window.innerWidth < 640 ? "mobile" : "desktop";
 
+                document.querySelector("video." + device).play();
+
                 // if there's a change between previous and current device type, set the body class and video src accordingly
                 if (device !== prevDevice) {
                     document.body.className = device;
-                    const filename = "carousel-" + device;
-                    videoPoster.src = filename + ".jpg";
-                    video.src = filename + ".mp4";
+
+                    const prevDeviceVideo = document.querySelector("video." + prevDevice);
+
+                    prevDeviceVideo && prevDeviceVideo.pause();
+
+                    // const filename = "carousel-" + device;
+                    // videoPoster.src = filename + ".jpg";
+                    // video.src = filename + ".mp4";
                 }
             };
 
@@ -360,7 +376,9 @@
             resizeHandler();
 
             // Video play/pause on tap or click
-            video.addEventListener("click", () => video.paused ? video.play() : video.pause());
+            videos.forEach(video => {
+                video.addEventListener("click", () => video.paused ? video.play() : video.pause());
+            });
 
             // Event listeners for the logo click, and the close-btn click
             document.querySelector("#logo").addEventListener("click", () => qrPanel.classList.add("qr-shown"));
@@ -434,8 +452,12 @@
             <img id="logo" src="logo.png" alt="Little Buffalo Studios" />
         </header>
         <div class="hero">
-            <img id="video-poster" src="carousel-mobile.jpg" loading="lazy" alt="A young fox exploring a deep forest ravine discovers two deer crossing a log, with early morning sun covering everything in a golden hue." />
-            <video id="video" src="carousel-mobile.mp4" poster="carousel-mobile.jpg" preload="none" playsinline="true" muted="true" loop="true" autoplay="true" loading="lazy">
+            <img class="mobile" src="carousel-mobile.jpg" loading="lazy" alt="A young fox exploring a deep forest ravine discovers two deer crossing a log, with early morning sun covering everything in a golden hue." />
+            <img class="desktop" src="carousel-desktop.jpg" loading="lazy" alt="A young fox exploring a deep forest ravine discovers two deer crossing a log, with early morning sun covering everything in a golden hue." />
+            <video class="mobile" src="carousel-mobile.mp4" preload="none" playsinline="true" muted="true" loop="true">
+                <track kind="captions" srclang="en" src="carousel.vtt" />
+            </video>
+            <video class="desktop" src="carousel-desktop.mp4" preload="none" playsinline="true" muted="true" loop="true">
                 <track kind="captions" srclang="en" src="carousel.vtt" />
             </video>
         </div>
