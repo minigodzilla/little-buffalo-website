@@ -330,7 +330,7 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const videos = document.querySelectorAll("video");
+            const carousels = document.querySelectorAll(".carousel");
             const form = document.querySelector("form");
             const emailInput = form.querySelector("#EMAIL");
             const hpInput = form.querySelector("#b_e7f83e702318920efe670e9b1_597f4b8abc");
@@ -346,16 +346,25 @@
                 // Check the current browser width and toggle the device type accordingly
                 device = window.innerWidth < 640 ? "mobile" : "desktop";
 
-                // Play the video associated with the current device
-                document.querySelector("video." + device).play();
+                const preCarousel = document.querySelector(".carousel-pre." + device);
+                const carousel = document.querySelector(".carousel." + device);
+
+                // Play the pre-carousel associated with the current device
+                preCarousel.play();
+
+                // Exactly 3 seconds after the pre-carousel starts playing, remove it and let the main carousel play
+                preCarousel.addEventListener("canplaythrough", () => {
+                    carousel.preload = 'auto';
+                    setTimeout(() => {
+                        preCarousel.remove();
+                        carousel.play();
+                    }, 3000);
+                });
 
                 // If there's a change between previous and current device type
                 if (device !== prevDevice) {
                     // Set the body class
                     document.body.className = device;
-
-                    // Pause the video associated with the previous device, if there was one
-                    prevDevice && document.querySelector("video." + prevDevice).pause();
                 }
             };
 
@@ -377,8 +386,8 @@
             resizeHandler();
 
             // Video play/pause on tap or click
-            videos.forEach(video => {
-                video.addEventListener("click", () => video.paused ? video.play() : video.pause());
+            carousels.forEach(carousel => {
+                carousel.addEventListener("click", () => carousel.paused ? carousel.play() : carousel.pause());
             });
 
             // Event listeners for the logo click, and the close-btn click
@@ -453,12 +462,16 @@
             <img id="logo" src="logo.png" alt="Little Buffalo Studios" />
         </header>
         <div class="hero">
-            <img class="mobile" src="carousel-mobile.jpg" loading="lazy" alt="A young fox exploring a deep forest ravine discovers two deer crossing a log, with early morning sun covering everything in a golden hue." />
-            <img class="desktop" src="carousel-desktop.jpg" loading="lazy" alt="A young fox exploring a deep forest ravine discovers two deer crossing a log, with early morning sun covering everything in a golden hue." />
-            <video class="mobile" src="carousel-mobile.mp4" preload="none" playsinline="true" muted="true" loop="true">
+            <video class="mobile carousel" src="carousel-mobile.mp4" preload="none" playsinline="true" muted="true" loop="true">
                 <track kind="captions" srclang="en" src="carousel.vtt" />
             </video>
-            <video class="desktop" src="carousel-desktop.mp4" preload="none" playsinline="true" muted="true" loop="true">
+            <video class="mobile carousel-pre" src="carousel-mobile-pre.mp4" preload="none" playsinline="true" muted="true">
+                <track kind="captions" srclang="en" src="carousel.vtt" />
+            </video>
+            <video class="desktop carousel" src="carousel-desktop.mp4" preload="none" playsinline="true" muted="true" loop="true">
+                <track kind="captions" srclang="en" src="carousel.vtt" />
+            </video>
+            <video class="desktop carousel-pre" src="carousel-desktop-pre.mp4" preload="none" playsinline="true" muted="true">
                 <track kind="captions" srclang="en" src="carousel.vtt" />
             </video>
         </div>
