@@ -304,7 +304,7 @@
             }
 
             .hero {
-                height: 37.75em;
+                height: 37.5em;
                 margin-bottom: 0.5em;
             }
 
@@ -391,7 +391,7 @@
                     preCarousel.preload = "auto";
                     preCarousel.play();
 
-                    // Exactly 3 seconds after the pre - carousel starts playing, remove it and let the main carousel play
+                    // Exactly 3 seconds after the pre-carousel starts playing, hide it and let the main carousel play
                     preCarousel.addEventListener("canplaythrough", () => {
                         carousel.preload = 'auto';
                         setTimeout(() => {
