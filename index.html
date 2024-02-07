@@ -255,6 +255,10 @@
         }
 
         @media only screen and (min-width: 640px) {
+            .mobile-only {
+                display: none;
+            }
+
             body {
                 font-size: 1.3vw;
             }
@@ -462,7 +466,11 @@
             </video>
         </div>
         <div class="content">
-            <p>Be the first to know when we launch <em>plus</em> receive an exclusive 75%&nbsp;discount</p>
+            <p>
+                <nobr>Be the first to know when we launch</nobr><br />
+                <nobr><em>plus</em> receive an exclusive</nobr><br class="mobile-only" />
+                <nobr>75% discount</nobr>
+            </p>
             <form action="https://gmail.us21.list-manage.com/subscribe/post?u=e7f83e702318920efe670e9b1&amp;id=597f4b8abc&amp;f_id=0056f5e6f0" method="POST" novalidate>
                 <!-- real users should not fill this in and expect good things -->
                 <div class="field-shift" aria-label="Please leave the following field empty" aria-hidden="true">
