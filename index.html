@@ -340,25 +340,22 @@
             let device; // device type, gets populated "mobile" or "desktop" by the resize handler
 
             const resizeHandler = () => {
-                // Capture previous device type
+                // Capture previous device type. When this runs for the first time it populates prevDevice as null
                 const prevDevice = device;
 
                 // Check the current browser width and toggle the device type accordingly
                 device = window.innerWidth < 640 ? "mobile" : "desktop";
 
+                // Play the video associated with the current device
                 document.querySelector("video." + device).play();
 
-                // if there's a change between previous and current device type, set the body class and video src accordingly
+                // If there's a change between previous and current device type
                 if (device !== prevDevice) {
+                    // Set the body class
                     document.body.className = device;
 
-                    const prevDeviceVideo = document.querySelector("video." + prevDevice);
-
-                    prevDeviceVideo && prevDeviceVideo.pause();
-
-                    // const filename = "carousel-" + device;
-                    // videoPoster.src = filename + ".jpg";
-                    // video.src = filename + ".mp4";
+                    // Pause the video associated with the previous device, if there was one
+                    prevDevice && document.querySelector("video." + prevDevice).pause();
                 }
             };
 
