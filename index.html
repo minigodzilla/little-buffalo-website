@@ -59,6 +59,15 @@
             text-align: center;
         }
 
+        .container {
+            overflow: hidden;
+        }
+
+        p.preview-text {
+            position: absolute;
+            left: -9999px;
+        }
+
         header {
             overflow: hidden;
         }
@@ -122,8 +131,8 @@
         }
 
         form .field-shift {
-            left: -9999px;
             position: absolute;
+            left: -9999px;
         }
 
         form input {
@@ -292,7 +301,6 @@
 
             .container {
                 height: 44em;
-                overflow: hidden;
             }
 
             header {
@@ -524,6 +532,7 @@
     <div class="container">
         <header>
             <img id="logo" src="logo.png" alt="Little Buffalo Studios" />
+            <p class="preview-text">Led by professionals who have worked for PlayStation, Ubisoft, Netflix and others, we make visually stunning games rooted in survival, stealth and crafting &ndash; all with an Indigenous-futurist twist.</p>
         </header>
         <div class="hero">
             <video class="mobile carousel" src="carousel-mobile.mp4" preload="none" playsinline="true" muted="true" loop="true">
