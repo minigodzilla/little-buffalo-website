@@ -380,8 +380,21 @@
             const qrPanel = document.querySelector(".qr-panel");
             let device; // device type, gets populated "mobile" or "desktop" by the resize handler
 
+            // Checking for "confirmed" parameter when users confirm their email
+            // It runs once and then it's done, hence the IIFE
+            (() => {
+                // Get the URL parameters
+                const urlParams = new URLSearchParams(window.location.search);
+
+                // Check if the "?confirmed" parameter is present
+                if (urlParams.has("confirmed")) {
+                    form.className = "submit-completed";
+                    statusMessage.innerHTML = "Thanks for confirming your email address!";
+                }
+            })();
+
             const resizeHandler = () => {
-                // Capture previous device type. When this runs for the first time it populates prevDevice as null
+                // Capture previous device type. When this runs for the first time it populates prevDevice as null.
                 const prevDevice = device;
 
                 // Check the current browser width and toggle the device type accordingly
@@ -402,13 +415,18 @@
                     preCarousel.preload = "auto";
                     preCarousel.play();
 
-                    // Exactly 3 seconds after the pre-carousel starts playing, hide it and let the main carousel play
+                    // Exactly 2950ms after the pre-carousel starts playing, hide it and let the main carousel play
                     preCarousel.addEventListener("canplaythrough", () => {
                         carousel.preload = 'auto';
+
+                        // 2950ms represents 2 seconds 59 frames of a 60fps video, meaning one frame short of exactly 3 seconds
+                        // this timeout function seamlessly hides the pre-carousel and shows the main carousel right on time
                         setTimeout(() => {
                             preCarousel.setAttribute("style", "z-index: -1;");
                             carousel.play();
                         }, 2950);
+
+                        // 2250ms felt right to start animating the content reveal, given the carousel animation timing
                         setTimeout(() => {
                             content.classList.add("reveal");
                         }, 2250);
@@ -433,27 +451,12 @@
             window.addEventListener("resize", debounce(resizeHandler, 100));
             resizeHandler();
 
-            // checking for "confirmed" parameter when users confirm their email
-            const paramCheck = () => {
-                // Get the URL parameters
-                const urlParams = new URLSearchParams(window.location.search);
-
-                // Check if the "?confirmed" parameter is present
-                if (urlParams.has("confirmed")) {
-                    form.className = "submit-completed";
-                    statusMessage.innerHTML = "Thanks for confirming your email address!"
-
-                }
-            };
-
-            paramCheck();
-
             // Video play/pause on tap or click
             carousels.forEach(carousel => {
                 carousel.addEventListener("click", () => carousel.paused ? carousel.play() : carousel.pause());
             });
 
-            // Event listeners for the logo click, and the close-btn click
+            // Event listeners for the logo click, and the close-btn click, for the QR panel
             document.querySelector("#logo").addEventListener("click", () => qrPanel.classList.add("qr-shown"));
             document.querySelector("#close-btn").addEventListener("click", () => qrPanel.classList.remove("qr-shown"));
 
@@ -463,27 +466,34 @@
 
                 // Validate email address
                 const emailValue = emailInput.value;
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Simple email pattern
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // "Simple" email pattern
 
                 if (!emailRegex.test(emailValue)) {
                     // If the email does not match the pattern, display an error message
                     statusMessage.innerHTML = "Please enter a valid email address.";
-                    return; // Stop the form submission
+                    // Stop the form submission
+                    return;
                 }
 
                 // Get the Submit URL from the <form>
                 let url = form.getAttribute("action");
+
+                // This URL change makes MailChimp's post action output in JSON
                 url = url.replace("/post?u=", "/post-json?u=");
+
+                // This constructs the rest of the URL with the form inputs and values
+                // The added "c=displayMailChimpStatus" makes MailChimp output a JS call to displayMailChimpStatus() with an argument, formed as an object, containing the results
                 url += "&" + encodeURIComponent(emailInput.name) + "=" + encodeURIComponent(emailInput.value) + "&" + encodeURIComponent(hpInput.name) + "=" + encodeURIComponent(hpInput.value) + "&c=displayMailChimpStatus";
 
-                // remove focus from any inputs
+                // Remove focus from any inputs
                 document.activeElement.blur();
 
                 // Disable all form inputs
                 allInputs.forEach(input => input.disabled = true);
                 form.className = "submit-in-progress";
 
-                // Create script with url and callback (if specified)
+                // Inject a script with the output from the post action 
+                // i.e. If all goes well, the post action should output "displayMailChimpStatus({"result":"success","msg":"Thank you for subscribing!"})"
                 const script = window.document.createElement("script");
                 script.src = url;
 
@@ -497,7 +507,7 @@
                 };
             });
 
-            // Display the form status
+            // Process the form action output arguments from MailChimp
             window.displayMailChimpStatus = (data) => {
                 // Make sure the data is in the right format
                 if (!data.result || !data.msg) return;
@@ -506,16 +516,17 @@
                 const thankYouRegex = /thank you/i;
                 const containsThankYou = thankYouRegex.test(data.msg);
 
-                // Display the appropriate message based on the presence of "thank you"
+                // Choose an appropriate action based on the presence of "thank you"
                 if (containsThankYou) {
+                    // Display a custom status message
                     statusMessage.innerHTML = "To complete the subscription process, please click the confirmation link in the email we just sent.";
                 } else {
-                    // Display the endpoint status message
+                    // Output the raw endpoint status message
                     statusMessage.innerHTML = data.msg;
                 }
 
-                // If successful, set the appropriate class name to the form;
-                // otherwise, re-enable all form inputs and reset the form class name
+                // If successful, set the appropriate class to the form;
+                // otherwise, re-enable all form inputs and reset the form class
                 if (data.result === "success") {
                     form.className = "submit-completed";
                 }
