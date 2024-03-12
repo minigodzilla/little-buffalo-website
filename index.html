@@ -391,6 +391,24 @@
                     form.className = "submit-completed";
                     statusMessage.innerHTML = "Thanks for confirming your email and <nobr>75% launch discount!</nobr>";
                 }
+
+                const currentPath = window.location.pathname;
+
+                // Check if the path is the root
+                if (currentPath === "/" || currentPath === "/index.html") {
+                    return;
+                }
+
+                // Remove trailing slash and "index.html" if present
+                const tagValue = currentPath.substring(1).replace(/\/(?:index\.html)?$/, '');
+
+
+                // Get the tag input element
+                const tagInput = form.querySelector("input[name='tag']");
+
+                // Update the value attribute with the path
+                tagInput.value = tagValue; // Removing the leading slash
+
             })();
 
             const resizeHandler = () => {
@@ -572,6 +590,7 @@
                 </div>
                 <input type="email" autocomplete="email" name="EMAIL" id="EMAIL" placeholder="Enter your email address" tabindex="0">
                 <input type="submit" name="submit" id="submit" value="Submit" tabindex="0">
+                <input type="hidden" name="tag" value="normal" />
                 <p id="status-message"></p>
             </form>
         </div>
