@@ -374,6 +374,8 @@
             const content = document.querySelector(".content");
             const form = document.querySelector("form");
             const emailInput = form.querySelector("#EMAIL");
+            const originInput = form.querySelector("#group");
+            let originValue = originInput.value;
             const hpInput = form.querySelector("#b_e7f83e702318920efe670e9b1_597f4b8abc");
             const allInputs = form.querySelectorAll("input");
             const statusMessage = form.querySelector("#status-message");
@@ -398,18 +400,14 @@
                 if (currentPath === "/" || currentPath === "/index.html") {
                     return;
                 }
-
                 // Remove trailing slash and "index.html" if present
-                const tagValue = currentPath.substring(1).replace(/\/(?:index\.html)?$/, '');
-
-
-                // Get the tag input element
-                const tagInput = form.querySelector("input[name='tag']");
+                originValue = currentPath.substring(1).replace(/\/(?:index\.html)?$/, '');
 
                 // Update the value attribute with the path
-                tagInput.value = tagValue; // Removing the leading slash
-
+                originInput.value = originValue;
             })();
+
+            console.log(originValue);
 
             const resizeHandler = () => {
                 // Capture previous device type. When this runs for the first time it populates prevDevice as null.
@@ -501,7 +499,7 @@
 
                 // This constructs the rest of the URL with the form inputs and values
                 // The added "c=displayMailChimpStatus" makes MailChimp output a JS call to displayMailChimpStatus() with an argument, formed as an object, containing the results
-                url += "&" + encodeURIComponent(emailInput.name) + "=" + encodeURIComponent(emailInput.value) + "&" + encodeURIComponent(hpInput.name) + "=" + encodeURIComponent(hpInput.value) + "&c=displayMailChimpStatus";
+                url += "&" + encodeURIComponent(emailInput.name) + "=" + encodeURIComponent(emailInput.value) + "&" + encodeURIComponent(originInput.name) + "=" + encodeURIComponent(originInput.value) + "&" + encodeURIComponent(hpInput.name) + "=" + encodeURIComponent(hpInput.value) + "&c=displayMailChimpStatus";
 
                 // Remove focus from any inputs
                 document.activeElement.blur();
@@ -512,12 +510,14 @@
 
                 // Inject a script with the output from the post action 
                 // i.e. If all goes well, the post action should output "displayMailChimpStatus({"result":"success","msg":"Thank you for subscribing!"})"
-                const script = window.document.createElement("script");
-                script.src = url;
+                // const script = window.document.createElement("script");
+                // script.src = url;
 
                 // Insert script tag into the DOM (append to <head>)
-                const ref = window.document.getElementsByTagName("script")[0];
-                ref.parentNode.insertBefore(script, ref);
+                // const ref = window.document.getElementsByTagName("script")[0];
+                // ref.parentNode.insertBefore(script, ref);
+
+                console.log(url);
 
                 // After the script is loaded (and executed), remove it
                 script.onload = function () {
@@ -589,8 +589,8 @@
                     <input type="text" name="b_e7f83e702318920efe670e9b1_597f4b8abc" id="b_e7f83e702318920efe670e9b1_597f4b8abc" tabindex="-1" value="">
                 </div>
                 <input type="email" autocomplete="email" name="EMAIL" id="EMAIL" placeholder="Enter your email address" tabindex="0">
+                <input type="hidden" name="group[2198]" id="group" value="4" />
                 <input type="submit" name="submit" id="submit" value="Submit" tabindex="0">
-                <input type="hidden" name="tag" value="normal" />
                 <p id="status-message"></p>
             </form>
         </div>
