@@ -1,0 +1,434 @@
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("fonts/montserrat-400.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url("fonts/montserrat-700.woff2") format("woff2");
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    line-height: 1.5;
+}
+
+body.mobile {
+    /* height: 100vh;
+    overflow: hidden; */
+}
+
+p {
+    margin: 0;
+    text-align: center;
+}
+
+.container {
+    overflow: hidden;
+}
+
+p.preview-text {
+    position: absolute;
+    left: -9999px;
+}
+
+header {
+    overflow: hidden;
+}
+
+header #logo {
+    display: block;
+    margin: 0.25em auto;
+}
+
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero img,
+.hero video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.content {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+.content::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    background-color: #000;
+    transform: translateX(-25%);
+    transition: transform ease 1000ms;
+}
+
+.content.reveal::after {
+    transform: translateX(25%);
+}
+
+.content .on-steam {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5em;
+}
+
+.content .on-steam p {
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    margin-bottom: 0.5em;
+}
+
+.content .on-steam img {
+    width: 5em;
+    height: auto;
+}
+
+.content .media-kit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5em;
+    padding: 3em 0;
+    background-color: #321e0e;
+    background-image: url("brush-top.png"), url("brush-bottom.png");
+    background-size: contain, contain;
+    background-position: top, bottom;
+    background-repeat: no-repeat, no-repeat;
+}
+
+.content .media-kit h2 {
+    font-size: 0.75em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    margin: 0 0 0.5em 0;
+    text-align: center;
+}
+
+.content .media-kit .download-link {
+    display: block;
+    box-sizing: border-box;
+    border: 0.15em solid #fbb03b;
+    font-family: Montserrat, sans-serif;
+    font-size: 1em;
+    line-height: 1.5;
+    text-align: center;
+    width: 18em;
+    padding: 0.4em;
+    transition: transform ease-out 50ms, opacity ease 250ms;
+    background-color: #fbb03b;
+    border-color: #fbb03b;
+    border-radius: 1.75em;
+    color: #000;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+    text-decoration: none;
+}
+
+.content .media-kit .download-link:active {
+    transform: scale(0.95);
+}
+
+.content .demo-form p {
+    margin: 0 0 1em 0;
+    padding: 0 2em;
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.875em;
+}
+
+.content .demo-form p em {
+    font-style: normal;
+    color: #fbb03b;
+}
+
+.content .demo-form form {
+    display: flex;
+    position: relative;
+}
+
+.content .demo-form form .field-shift {
+    position: absolute;
+    left: -9999px;
+}
+
+.content .demo-form form input {
+    display: block;
+    box-sizing: border-box;
+    border: 0.15em solid;
+    font-family: Montserrat, sans-serif;
+    font-size: 1em;
+    line-height: 1.5;
+    text-align: center;
+    width: 18em;
+    margin-top: 0.5em;
+    padding: 0.4em;
+    transition: transform ease-out 50ms, opacity ease 250ms;
+}
+
+.content .demo-form form input:focus {
+    outline: none;
+}
+
+.content .demo-form form input[type="email"] {
+    background-color: transparent;
+    border-color: #fff;
+    font-weight: bold;
+    color: #fff;
+}
+
+.content .demo-form form input[type="email"]::placeholder {
+    font-weight: normal;
+    color: #aaa;
+}
+
+.content .demo-form form input[type="submit"] {
+    display: block;
+    background-color: #fbb03b;
+    border-color: #fbb03b;
+    border-radius: 1.75em;
+    color: #000;
+    font-weight: bold;
+    -webkit-font-smoothing: antialiased;
+}
+
+.content .demo-form form input[type="submit"]:active {
+    transform: scale(0.95);
+}
+
+.content .demo-form form #status-message {
+    font-size: 0.80em;
+}
+
+.content .demo-form form.submit-in-progress {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.content .demo-form form.submit-completed input {
+    opacity: 0;
+}
+
+.content .demo-form form.submit-completed #status-message {
+    margin-top: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+@media only screen and (max-width: 639px) {
+    body {
+        font-size: 4.25vw;
+    }
+
+    header {
+        height: 4.75em;
+    }
+
+    header #logo {
+        width: 45%;
+        margin: 0.75em auto;
+    }
+
+    .hero {
+        height: 17.75em;
+        margin-bottom: 1.5em;
+    }
+
+    .hero img,
+    .hero video {
+        height: 17.75em;
+    }
+
+    .hero img.desktop,
+    .hero video.desktop {
+        display: none;
+    }
+
+    .content .demo-form form.submit-completed #status-message {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .content {
+        flex-direction: column;
+    }
+
+    .content::after {
+        left: -100%;
+        right: -100%;
+        mask-image: linear-gradient(90deg, transparent 40%, black 60%);
+    }
+
+    .content .demo-form form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .content .demo-form form input[type="email"] {
+        margin-bottom: 1.75em;
+    }
+
+    .content .demo-form form input[type="submit"] {
+        margin-bottom: 1.5em;
+    }
+
+    .content .media-kit .download-link {
+        margin-bottom: 1.5em;
+    }
+
+    .content .demo-form form #status-message {
+        padding: 0 3em;
+    }
+
+    .qr-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.85);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 500ms ease;
+    }
+
+    .qr-panel.qr-shown {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .qr-panel #close-btn {
+        position: absolute;
+        top: 1.5em;
+        right: 1.5em;
+        width: 2em;
+    }
+
+    .qr-panel .qr {
+        display: block;
+        width: 76.5%;
+        margin: 10em auto 0 auto;
+    }
+}
+
+@media only screen and (min-width: 640px) {
+    .mobile-only {
+        display: none;
+    }
+
+    body {
+        font-size: 1.3vw;
+    }
+
+    header {
+        position: absolute;
+        width: 100%;
+        height: auto;
+        z-index: 1;
+    }
+
+    header #logo {
+        width: 25%;
+    }
+
+    .hero {
+        height: 37.5em;
+        margin-bottom: 0.5em;
+    }
+
+    .hero img,
+    .hero video {
+        height: 37.75em;
+    }
+
+    .hero img.mobile,
+    .hero video.mobile {
+        display: none;
+    }
+
+    .content {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .content .on-steam {
+        flex-direction: row;
+        gap: 1em;
+    }
+
+    .content .demo-form {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .content .demo-form p {
+        width: 24em;
+        margin-bottom: auto;
+        font-size: 1em;
+    }
+
+    .content::after {
+        left: -50%;
+        right: -50%;
+        mask-image: linear-gradient(90deg, transparent 47.5%, black 52.5%);
+    }
+
+    .content .demo-form form {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        width: 29em;
+        padding-top: 0.25em;
+    }
+
+    .content .demo-form form input[type="submit"] {
+        width: 9em;
+        margin-left: auto;
+    }
+
+    .content .media-kit .download-link {
+        width: 9em;
+    }
+
+    .content .demo-form form #status-message {
+        margin-top: 1em;
+    }
+
+    .qr-panel {
+        display: none;
+    }
+}
