@@ -23,6 +23,50 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })();
 
+    let carouselCleanup = null;
+
+    const scheduleCarouselStart = (preCarousel, carousel) => {
+        if (carouselCleanup) {
+            carouselCleanup();
+        }
+
+        let started = false;
+        let fallbackTimeout;
+        let revealTimeout;
+        let swapTimeout;
+
+        const startSequence = () => {
+            if (started) return;
+            started = true;
+
+            clearTimeout(fallbackTimeout);
+            carousel.preload = "auto";
+
+            // 2950ms represents 2 seconds 59 frames of a 60fps video, meaning one frame short of exactly 3 seconds
+            swapTimeout = setTimeout(() => {
+                preCarousel.setAttribute("style", "z-index: -1;");
+                carousel.play().catch(() => {});
+            }, 2950);
+
+            // 2250ms felt right to start animating the content reveal, given the carousel animation timing
+            revealTimeout = setTimeout(() => {
+                content.classList.add("reveal");
+            }, 2250);
+        };
+
+        const onCanPlayThrough = () => startSequence();
+
+        preCarousel.addEventListener("canplaythrough", onCanPlayThrough, { once: true });
+        fallbackTimeout = setTimeout(startSequence, 5000);
+
+        carouselCleanup = () => {
+            clearTimeout(fallbackTimeout);
+            clearTimeout(revealTimeout);
+            clearTimeout(swapTimeout);
+            preCarousel.removeEventListener("canplaythrough", onCanPlayThrough);
+        };
+    };
+
     const resizeHandler = () => {
         // Capture previous device type. When this runs for the first time it populates prevDevice as null.
         const prevDevice = device;
@@ -38,30 +82,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const preCarousel = document.querySelector(".carousel-pre." + device);
             const carousel = document.querySelector(".carousel." + device);
 
+            if (!preCarousel || !carousel) return;
+
+            content.classList.remove("reveal");
+            preCarousel.removeAttribute("style");
+
             // Get the main carousel ready...
             carousel.preload = "metadata";
 
             // Play the pre-carousel associated with the current device
             preCarousel.preload = "auto";
-            preCarousel.play();
+            preCarousel.play().catch(() => {});
 
-            // Exactly 2950ms after the pre-carousel starts playing, hide it and let the main carousel play
-            preCarousel.addEventListener("canplaythrough", () => {
-                carousel.preload = 'auto';
-
-                // 2950ms represents 2 seconds 59 frames of a 60fps video, meaning one frame short of exactly 3 seconds
-                // this timeout function seamlessly hides the pre-carousel and shows the main carousel right on time
-                setTimeout(() => {
-                    preCarousel.setAttribute("style", "z-index: -1;");
-                    carousel.play();
-                }, 2950);
-
-                // 2250ms felt right to start animating the content reveal, given the carousel animation timing
-                setTimeout(() => {
-                    content.classList.add("reveal");
-                }, 2250);
-            });
-        };
+            scheduleCarouselStart(preCarousel, carousel);
+        }
     };
 
     // Debounce function
