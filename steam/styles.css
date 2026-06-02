@@ -107,6 +107,11 @@ header #logo {
     margin-bottom: 0.5em;
 }
 
+.content .on-steam p a {
+    color: #fff;
+    text-decoration: none;
+}
+
 .content .on-steam img {
     width: 5em;
     height: auto;
@@ -182,7 +187,63 @@ header #logo {
     left: -9999px;
 }
 
-.content .demo-form form input {
+.content .demo-form form .radios {
+    width: 18em;
+}
+
+.content .demo-form form .radios .radio-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25em;
+    margin: 0.5em 0 0.75em 0;
+}
+
+.content .demo-form form .radios .radio-option {
+    position: relative;
+    flex: 0 0 calc((100% - 0.5em) / 3);
+    width: calc((100% - 0.5em) / 3);
+    box-sizing: border-box;
+}
+
+.content .demo-form form .radios .radio-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.content .demo-form form .radios .radio-option label {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0.15em solid #fff;
+    font-family: Montserrat, sans-serif;
+    font-size: 0.625em;
+    line-height: 1.5;
+    text-align: center;
+    padding: 0.4em;
+    font-weight: bold;
+    color: #fff;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color ease 250ms, color ease 250ms;
+}
+
+.content .demo-form form .radios .radio-option input[type="radio"]:checked + label {
+    background-color: #fff;
+    color: #000;
+}
+
+.content .demo-form form .radios .radio-option input[type="radio"]:focus-visible + label {
+    outline: 0.15em solid #fbb03b;
+    outline-offset: 0.15em;
+}
+
+.content .demo-form form input[type="text"], .content .demo-form form input[type="email"], .content .demo-form form input[type="submit"] {
     display: block;
     box-sizing: border-box;
     border: 0.15em solid;
@@ -196,7 +257,7 @@ header #logo {
     transition: transform ease-out 50ms, opacity ease 250ms;
 }
 
-.content .demo-form form input:focus {
+.content .demo-form form input[type="text"]:focus, .content .demo-form form input[type="email"]:focus {
     outline: none;
 }
 
@@ -393,6 +454,7 @@ header #logo {
         display: flex;
         flex-direction: row;
         justify-content: center;
+        align-items: center;
         padding: 6em 0 5em 0;
         background-image: url("brush-top-desktop.png"), url("brush-bottom-desktop.png");
     }
@@ -416,6 +478,14 @@ header #logo {
         align-items: flex-start;
         width: 29em;
         padding-top: 0.25em;
+    }
+
+    .content .demo-form form .radios {
+        width: 100%;
+    }
+
+    .content .demo-form form .radios .radio-option label {
+        font-size: 0.75em;
     }
 
     .content .demo-form form input[type="submit"] {
