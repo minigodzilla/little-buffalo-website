@@ -88,7 +88,7 @@ header #logo {
 }
 
 .content.reveal::after {
-    transform: translateX(25%);
+    transform: translateX(30%);
 }
 
 .content .on-steam {
@@ -96,7 +96,7 @@ header #logo {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.5em;
+    margin-bottom: 1em;
 }
 
 .content .on-steam p {
@@ -112,13 +112,8 @@ header #logo {
     height: auto;
 }
 
-.content .media-kit {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5em;
-    padding: 3em 0;
+.content .demo-form {
+    padding: 3em 0 1.5em 0;
     background-color: #321e0e;
     background-image: url("brush-top.png"), url("brush-bottom.png");
     background-size: contain, contain;
@@ -126,19 +121,27 @@ header #logo {
     background-repeat: no-repeat, no-repeat;
 }
 
+.content .media-kit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 1em 0;
+}
+
 .content .media-kit h2 {
     font-size: 0.75em;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.25em;
-    margin: 0 0 0.5em 0;
+    margin: 0 0 1em 0;
     text-align: center;
 }
 
 .content .media-kit .download-link {
     display: block;
     box-sizing: border-box;
-    border: 0.15em solid #fbb03b;
+    border: 0.15em solid #fff;
     font-family: Montserrat, sans-serif;
     font-size: 1em;
     line-height: 1.5;
@@ -146,10 +149,8 @@ header #logo {
     width: 18em;
     padding: 0.4em;
     transition: transform ease-out 50ms, opacity ease 250ms;
-    background-color: #fbb03b;
-    border-color: #fbb03b;
     border-radius: 1.75em;
-    color: #000;
+    color: #fff;
     font-weight: bold;
     -webkit-font-smoothing: antialiased;
     text-decoration: none;
@@ -162,7 +163,6 @@ header #logo {
 .content .demo-form p {
     margin: 0 0 1em 0;
     padding: 0 2em;
-    font-weight: bold;
     text-align: center;
     font-size: 0.875em;
 }
@@ -386,12 +386,15 @@ header #logo {
     .content .on-steam {
         flex-direction: row;
         gap: 1em;
+        margin: 1em 0 0 0;
     }
 
     .content .demo-form {
         display: flex;
         flex-direction: row;
         justify-content: center;
+        padding: 6em 0 5em 0;
+        background-image: url("brush-top-desktop.png"), url("brush-bottom-desktop.png");
     }
 
     .content .demo-form p {
@@ -418,6 +421,10 @@ header #logo {
     .content .demo-form form input[type="submit"] {
         width: 9em;
         margin-left: auto;
+    }
+
+    .content .media-kit {
+        margin-bottom: 3em;
     }
 
     .content .media-kit .download-link {
