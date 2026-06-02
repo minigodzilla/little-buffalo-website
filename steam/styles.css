@@ -32,6 +32,10 @@ body.mobile {
     overflow: hidden; */
 }
 
+body.qr-shown {
+    overflow: hidden;
+}
+
 p {
     margin: 0;
     text-align: center;
@@ -233,9 +237,41 @@ header #logo {
     transition: background-color ease 250ms, color ease 250ms;
 }
 
+.content .demo-form form .radios .radio-option label span {
+    display: inline-block;
+    padding-left: 2.5em;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: contain;
+    transition: filter ease 250ms;
+}
+
+.content .demo-form form .radios .radio-option label[for="platform-pc"] span {
+    background-image: url("platform-icon-pc.png");
+}
+
+.content .demo-form form .radios .radio-option label[for="platform-mac"] span {
+    background-image: url("platform-icon-mac.png");
+}
+
+.content .demo-form form .radios .radio-option label[for="platform-switch"] span {
+    background-image: url("platform-icon-switch.png");
+}
+
+.content .demo-form form .radios .radio-option label[for="platform-xbox"] span {
+    background-image: url("platform-icon-xbox.png");
+}
+
+.content .demo-form form .radios .radio-option label[for="platform-playstation"] span {
+    background-image: url("platform-icon-ps.png");
+}
+
 .content .demo-form form .radios .radio-option input[type="radio"]:checked + label {
     background-color: #fff;
-    color: #000;
+}
+
+.content .demo-form form .radios .radio-option input[type="radio"]:checked + label span {
+    filter: invert(1);
 }
 
 .content .demo-form form .radios .radio-option input[type="radio"]:focus-visible + label {

@@ -87,8 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Event listeners for the logo click, and the close-btn click, for the QR panel
-    document.querySelector("#logo").addEventListener("click", () => qrPanel.classList.add("qr-shown"));
-    document.querySelector("#close-btn").addEventListener("click", () => qrPanel.classList.remove("qr-shown"));
+    document.querySelector("#logo").addEventListener("click", () => {
+        qrPanel.classList.add("qr-shown");
+        document.body.classList.add("qr-shown");
+    });
+    document.querySelector("#close-btn").addEventListener("click", () => {
+        qrPanel.classList.remove("qr-shown");
+        document.body.classList.remove("qr-shown");
+    });
 
     form.addEventListener("submit", event => {
         // Prevent default form submission
